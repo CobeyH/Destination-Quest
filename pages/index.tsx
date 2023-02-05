@@ -1,9 +1,16 @@
-import { Button, Text, ChakraProvider } from "@chakra-ui/react";
+import {
+  Button,
+  Text,
+  ChakraProvider,
+  Input,
+  Container,
+} from "@chakra-ui/react";
 import Head from "next/head";
 import { useState } from "react";
 
 export default function Home() {
-  const [animalInput, setAnimalInput] = useState("");
+  const [cityInput, setCityInput] = useState("");
+
   const [result, setResult] = useState();
 
   async function onSubmit(event) {
@@ -14,7 +21,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ animal: animalInput }),
+        body: JSON.stringify({ city: cityInput }),
       });
 
       const data = await response.json();
@@ -24,9 +31,10 @@ export default function Home() {
           new Error(`Request failed with status ${response.status}`)
         );
       }
+      console.log(data.result);
 
       setResult(data.result);
-      setAnimalInput("");
+      setCityInput("");
     } catch (error) {
       // Consider implementing your own error handling logic here
       console.error(error);
@@ -42,22 +50,18 @@ export default function Home() {
       </Head>
 
       <main>
-        <img src="/dog.png" />
-        <h3>Name my pet</h3>
         <Text fontSize="6xl">City Search</Text>
-        <Text fontSize="6xl">Enter City</Text>
-        <Button>Submit</Button>
-        <form onSubmit={onSubmit}>
-          <input
-            type="text"
-            name="animal"
-            placeholder="Enter an animal"
-            value={animalInput}
-            onChange={(e) => setAnimalInput(e.target.value)}
-          />
-          <input type="submit" value="Generate names" />
-        </form>
-        <div>{result}</div>
+        <Text fontSize="2xl">Enter City</Text>
+        <Input
+          value={cityInput}
+          onChange={(e) => setCityInput(e.target.value)}
+          placeholder="City Name"
+          size="sm"
+        />
+        <Button mt="3" onClick={onSubmit}>
+          Submit
+        </Button>
+        <Container>{result}</Container>
       </main>
     </ChakraProvider>
   );
