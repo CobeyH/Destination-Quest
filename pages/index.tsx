@@ -1,3 +1,4 @@
+import { Button, Text, ChakraProvider } from "@chakra-ui/react";
 import Head from "next/head";
 import { useState } from "react";
 
@@ -34,7 +35,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <ChakraProvider>
       <Head>
         <title>OpenAI Quickstart</title>
         <link rel="icon" href="/dog.png" />
@@ -43,6 +44,9 @@ export default function Home() {
       <main>
         <img src="/dog.png" />
         <h3>Name my pet</h3>
+        <Text fontSize="6xl">City Search</Text>
+        <Text fontSize="6xl">Enter City</Text>
+        <Button>Submit</Button>
         <form onSubmit={onSubmit}>
           <input
             type="text"
@@ -55,6 +59,6 @@ export default function Home() {
         </form>
         <div>{result}</div>
       </main>
-    </div>
+    </ChakraProvider>
   );
 }
