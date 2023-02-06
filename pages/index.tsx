@@ -6,14 +6,29 @@ import {
   Container,
 } from "@chakra-ui/react";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [cityInput, setCityInput] = useState("");
-
   const [result, setResult] = useState();
 
-  async function onSubmit(event) {
+  useEffect(() => {
+    console.log(cityInput);
+  }, [result]);
+
+  const successCallback = (position) => {
+    console.log(position);
+  };
+
+  const errorCallback = (error) => {
+    console.log(error);
+  };
+
+  navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+
+  async function onSubmit(event: any) {
+    console.log("Button pressed");
+
     event.preventDefault();
     try {
       const response = await fetch("/api/generate", {
@@ -31,11 +46,9 @@ export default function Home() {
           new Error(`Request failed with status ${response.status}`)
         );
       }
-      console.log(data.result);
-
       setResult(data.result);
       setCityInput("");
-    } catch (error) {
+    } catch (error: any) {
       // Consider implementing your own error handling logic here
       console.error(error);
       alert(error.message);

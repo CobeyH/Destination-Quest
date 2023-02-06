@@ -5,7 +5,17 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export default async function (req, res) {
+type OpenAIReq = {
+  method: String;
+  headers: {
+    "Content-Type": String;
+  };
+  body: {
+    city: String;
+  };
+};
+
+export default async function (req: OpenAIReq, res: any) {
   if (!configuration.apiKey) {
     res.status(500).json({
       error: {
@@ -30,11 +40,14 @@ export default async function (req, res) {
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: generatePrompt(city),
-      temperature: 0.6,
+      temperature: 0.3,
+      max_tokens: 500,
     });
+    console.log("Testing here");
+    console.log(completion.data);
 
     res.status(200).json({ result: completion.data.choices[0].text });
-  } catch (error) {
+  } catch (error: any) {
     // Consider adjusting the error handling logic for your use case
     if (error.response) {
       console.error(error.response.status, error.response.data);
@@ -50,7 +63,7 @@ export default async function (req, res) {
   }
 }
 
-function generatePrompt(city) {
+function generatePrompt(city: String) {
   const sanitizedCity = city[0].toUpperCase() + city.slice(1).toLowerCase();
   return `Suggest some things to do in ${sanitizedCity}`;
 }
