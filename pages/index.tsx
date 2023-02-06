@@ -4,7 +4,12 @@ import {
   ChakraProvider,
   Input,
   Container,
+  InputGroup,
+  InputRightElement,
+  IconButton,
+  Box,
 } from "@chakra-ui/react";
+import { IoLocateSharp } from "react-icons/io5";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 
@@ -16,15 +21,17 @@ export default function Home() {
     console.log(cityInput);
   }, [result]);
 
-  const successCallback = (position) => {
+  const successCallback = (position: GeolocationPosition) => {
     console.log(position);
   };
 
-  const errorCallback = (error) => {
+  const errorCallback = (error: GeolocationPositionError) => {
     console.log(error);
   };
 
-  navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+  function getPosition() {
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+  }
 
   async function onSubmit(event: any) {
     console.log("Button pressed");
@@ -62,20 +69,29 @@ export default function Home() {
         <link rel="icon" href="/dog.png" />
       </Head>
 
-      <main>
+      <Box m="5%">
         <Text fontSize="6xl">City Search</Text>
         <Text fontSize="2xl">Enter City</Text>
-        <Input
-          value={cityInput}
-          onChange={(e) => setCityInput(e.target.value)}
-          placeholder="City Name"
-          size="sm"
-        />
+        <InputGroup>
+          <Input
+            value={cityInput}
+            onChange={(e) => setCityInput(e.target.value)}
+            placeholder="City Name"
+            size="sm"
+          />
+          <InputRightElement>
+            <IconButton
+              aria-label="My-Location-Button"
+              onClick={getPosition}
+              icon={<IoLocateSharp />}
+            ></IconButton>
+          </InputRightElement>
+        </InputGroup>
         <Button mt="3" onClick={onSubmit}>
           Submit
         </Button>
         <Container>{result}</Container>
-      </main>
+      </Box>
     </ChakraProvider>
   );
 }
