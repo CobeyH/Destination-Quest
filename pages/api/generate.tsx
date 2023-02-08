@@ -43,8 +43,6 @@ export default async function (req: OpenAIReq, res: any) {
       temperature: 0.3,
       max_tokens: 500,
     });
-    console.log(completion.data);
-
     res.status(200).json({ result: completion.data.choices[0].text });
   } catch (error: any) {
     // Consider adjusting the error handling logic for your use case

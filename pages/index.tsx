@@ -1,4 +1,4 @@
-import { Box, Button, ChakraProvider, propNames, Text } from "@chakra-ui/react";
+import { Box, Button, ChakraProvider, Text } from "@chakra-ui/react";
 import CityField from "../components/CityField";
 import ResultsDisplay from "../components/ResultsDisplay";
 
@@ -10,9 +10,9 @@ export default function Home() {
   const [cityInput, setCityInput] = useState("");
 
   async function onSubmit(event: any) {
-    console.log("Button pressed");
-
     event.preventDefault();
+    console.log(process.env.OPENAI_API_KEY);
+
     try {
       const response = await fetch("/api/generate", {
         method: "POST",
@@ -38,13 +38,12 @@ export default function Home() {
     }
   }
 
-  const testData =
-    "1. Visit the Great Pyramids of Giza and the Sphinx 2. Explore the Khan el-Khalili Bazaar 3. Take a Nile River Cruise 4. Visit the Egyptian Museum 5. Climb the Cairo Tower 6. Explore Islamic Cairo 7. Visit the Coptic Cairo 8. Take a camel ride in the desert 9. Visit the Citadel of Saladin 10. Enjoy a felucca ride on the Nile";
+  const testData = "1. Visit the Great Pyramids of Giza and the Sphinx ";
 
   return (
     <ChakraProvider>
       <Head>
-        <title>OpenAI Quickstart</title>
+        <title>Destination Quest</title>
         <link rel="icon" href="/dog.png" />
       </Head>
 

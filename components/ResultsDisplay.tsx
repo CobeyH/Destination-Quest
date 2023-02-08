@@ -1,14 +1,5 @@
-import {
-  Box,
-  Card,
-  CardBody,
-  Heading,
-  Stack,
-  CardHeader,
-  StackDivider,
-  Text,
-} from "@chakra-ui/react";
-import React from "react";
+import { Stack } from "@chakra-ui/react";
+import ResultCard from "./ResultCard";
 
 const ResultsDisplay = (props: { result: string }) => {
   const DataRows = () => {
@@ -17,16 +8,7 @@ const ResultsDisplay = (props: { result: string }) => {
     for (let i = 0; i < splitData.length; i++) {
       const element = splitData[i];
       if (element.trim().length === 0) continue;
-      cards.push(
-        <Card>
-          <CardBody>
-            <Box>
-              <Heading>Testing</Heading>
-              <Text>{element}</Text>
-            </Box>
-          </CardBody>
-        </Card>
-      );
+      cards.push(<ResultCard text={element} key={i} />);
     }
     return <Stack>{...cards}</Stack>;
   };

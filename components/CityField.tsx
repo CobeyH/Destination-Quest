@@ -52,13 +52,13 @@ const CityField = (props: {
 
   return (
     <InputGroup>
-      <InputLeftElement pl="5" pr="10">
+      <InputLeftElement>
         <IconButton
           aria-label="My-Location-Button"
           onClick={getPosition}
           icon={<IoLocateSharp />}
           variant="ghost"
-          isRound
+          borderRadius={"10"}
         />
       </InputLeftElement>
       <Input
