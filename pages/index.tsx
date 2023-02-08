@@ -1,37 +1,13 @@
-import {
-  Button,
-  Text,
-  ChakraProvider,
-  Input,
-  Container,
-  InputGroup,
-  InputRightElement,
-  IconButton,
-  Box,
-} from "@chakra-ui/react";
-import { IoLocateSharp } from "react-icons/io5";
+import { Box, Button, ChakraProvider, propNames, Text } from "@chakra-ui/react";
+import CityField from "../components/CityField";
+import ResultsDisplay from "../components/ResultsDisplay";
+
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Home() {
+  const [result, setResult] = useState("");
   const [cityInput, setCityInput] = useState("");
-  const [result, setResult] = useState();
-
-  useEffect(() => {
-    console.log(cityInput);
-  }, [result]);
-
-  const successCallback = (position: GeolocationPosition) => {
-    console.log(position);
-  };
-
-  const errorCallback = (error: GeolocationPositionError) => {
-    console.log(error);
-  };
-
-  function getPosition() {
-    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-  }
 
   async function onSubmit(event: any) {
     console.log("Button pressed");
@@ -62,6 +38,9 @@ export default function Home() {
     }
   }
 
+  const testData =
+    "1. Visit the Great Pyramids of Giza and the Sphinx 2. Explore the Khan el-Khalili Bazaar 3. Take a Nile River Cruise 4. Visit the Egyptian Museum 5. Climb the Cairo Tower 6. Explore Islamic Cairo 7. Visit the Coptic Cairo 8. Take a camel ride in the desert 9. Visit the Citadel of Saladin 10. Enjoy a felucca ride on the Nile";
+
   return (
     <ChakraProvider>
       <Head>
@@ -72,25 +51,11 @@ export default function Home() {
       <Box m="5%">
         <Text fontSize="6xl">City Search</Text>
         <Text fontSize="2xl">Enter City</Text>
-        <InputGroup>
-          <Input
-            value={cityInput}
-            onChange={(e) => setCityInput(e.target.value)}
-            placeholder="City Name"
-            size="sm"
-          />
-          <InputRightElement>
-            <IconButton
-              aria-label="My-Location-Button"
-              onClick={getPosition}
-              icon={<IoLocateSharp />}
-            ></IconButton>
-          </InputRightElement>
-        </InputGroup>
-        <Button mt="3" onClick={onSubmit}>
-          Submit
+        <CityField setCity={setCityInput} city={cityInput} />
+        <Button m="3" onClick={onSubmit} isDisabled={cityInput.length < 5}>
+          Search
         </Button>
-        <Container>{result}</Container>
+        <ResultsDisplay result={testData} />
       </Box>
     </ChakraProvider>
   );
