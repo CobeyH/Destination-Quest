@@ -1,6 +1,10 @@
 import { Box, Button, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import { BsEmojiLaughingFill, BsHouse, BsTreeFill } from "react-icons/bs";
+import {
+  BsEmojiLaughingFill,
+  BsFillHouseDoorFill,
+  BsTreeFill,
+} from "react-icons/bs";
 
 type Tag = {
   text: string;
@@ -10,7 +14,7 @@ type Tag = {
 
 const tagData: Tag[] = [
   { text: "Outdoor", icon: BsTreeFill, mutuallyExclusive: ["Indoor"] },
-  { text: "Indoor", icon: BsHouse, mutuallyExclusive: ["Outdoor"] },
+  { text: "Indoor", icon: BsFillHouseDoorFill, mutuallyExclusive: ["Outdoor"] },
   { text: "Free", icon: BsEmojiLaughingFill },
 ];
 

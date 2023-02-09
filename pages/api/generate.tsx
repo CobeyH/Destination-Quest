@@ -42,7 +42,6 @@ export default async function (req: OpenAIReq, res: any) {
 
   try {
     const prompt = generatePrompt(city) + " " + addFilters(filters);
-    console.log(prompt);
 
     const completion = await openai.createCompletion({
       model: "text-davinci-003",

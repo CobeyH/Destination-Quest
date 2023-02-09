@@ -1,26 +1,34 @@
-import { Box, Button, ChakraProvider, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  ChakraProvider,
+  IconButton,
+  Spinner,
+  Text,
+  useColorMode,
+} from "@chakra-ui/react";
 import CityField from "../components/CityField";
 import ResultsDisplay from "../components/ResultsDisplay";
 
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs";
 import FilterButtons from "../components/FilterButton";
 
 export default function Home() {
+  const { colorMode, toggleColorMode } = useColorMode();
+
   const [result, setResult] = useState("");
   const [cityInput, setCityInput] = useState("");
   const [tagKeys, setTagKeys] = useState<string[]>([]);
-
-  useEffect(() => {
-    console.log(result);
-  }, [result]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   async function onSubmit(event: any) {
     event.preventDefault();
+    setLoading(true);
+    setResult("");
 
     try {
-      console.log("Making API request");
-
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: {
@@ -38,12 +46,17 @@ export default function Home() {
       }
       setResult(data.result);
       setCityInput("");
+      setLoading(false);
     } catch (error: any) {
       // Consider implementing your own error handling logic here
       console.error(error);
       alert(error.message);
+      setLoading(false);
     }
   }
+
+  const testData =
+    "1. Visit the Butchart Gardens 2. Take a whale-watching tour 3. Explore the Royal BC Museum 4. Visit the Parliament Buildings 5. Take a stroll along the Inner Harbour 6. Visit the Craigdarroch Castle 7. Go for a hike in the Sooke Hills 8. Take a ferry ride to the Gulf Islands 9. Explore the Chinatown district 10. Visit the Art Gallery of Greater Victoria";
 
   return (
     <ChakraProvider>
@@ -53,11 +66,16 @@ export default function Home() {
       </Head>
 
       <Box m="5%">
-        <Text fontSize="6xl">City Search</Text>
+        <IconButton
+          icon={colorMode === "light" ? <BsFillMoonFill /> : <BsFillSunFill />}
+          onClick={toggleColorMode}
+          aria-label={"color-mode-switch"}
+        />
         <Text fontSize="2xl">Enter City</Text>
         <CityField setCity={setCityInput} city={cityInput} />
         <FilterButtons tagKeys={tagKeys} setTagKeys={setTagKeys} />
         <Button m="3" onClick={onSubmit} isDisabled={cityInput.length < 5}>
+          {loading ? <Spinner pt="1" mr="2" /> : null}
           Search
         </Button>
         <ResultsDisplay result={result} />

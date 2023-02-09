@@ -1,4 +1,5 @@
-import { Box, Text, Card, CardBody, Heading, Image } from "@chakra-ui/react";
+import { Card, CardBody, Text } from "@chakra-ui/react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import photoSearch from "../pages/api/photoSearch";
 
@@ -15,6 +16,10 @@ const ResultCard = (props: { text: string }) => {
     "visit",
     "climb",
     "walk",
+    "go",
+    "stroll",
+    "along",
+    "and",
   ];
 
   useEffect(() => {
@@ -32,8 +37,14 @@ const ResultCard = (props: { text: string }) => {
   }, [props.text]);
 
   return (
-    <Card direction="row" overflow="hidden" variant="outline">
-      <Image src={image} objectFit="cover" />
+    <Card direction="row" overflow="hidden" variant="outline" height={130}>
+      <Image
+        src={image || "/default-image.jpg"}
+        alt=""
+        width={200}
+        height={130}
+        style={{ objectFit: "fill" }}
+      />
       <CardBody>
         <Text>{props.text}</Text>
       </CardBody>
