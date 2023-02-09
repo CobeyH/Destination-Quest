@@ -3,7 +3,7 @@ import CityField from "../components/CityField";
 import ResultsDisplay from "../components/ResultsDisplay";
 
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FilterButtons from "../components/FilterButton";
 
 export default function Home() {
@@ -11,17 +11,22 @@ export default function Home() {
   const [cityInput, setCityInput] = useState("");
   const [tagKeys, setTagKeys] = useState<string[]>([]);
 
+  useEffect(() => {
+    console.log(result);
+  }, [result]);
+
   async function onSubmit(event: any) {
     event.preventDefault();
-    console.log(process.env.OPENAI_API_KEY);
 
     try {
+      console.log("Making API request");
+
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ city: cityInput }),
+        body: JSON.stringify({ city: cityInput, filters: tagKeys }),
       });
 
       const data = await response.json();
@@ -40,8 +45,6 @@ export default function Home() {
     }
   }
 
-  const testData = "1. Visit the Great Pyramids of Giza and the Sphinx ";
-
   return (
     <ChakraProvider>
       <Head>
@@ -57,7 +60,7 @@ export default function Home() {
         <Button m="3" onClick={onSubmit} isDisabled={cityInput.length < 5}>
           Search
         </Button>
-        <ResultsDisplay result={testData} />
+        <ResultsDisplay result={result} />
       </Box>
     </ChakraProvider>
   );

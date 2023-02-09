@@ -1,3 +1,4 @@
+import { filter } from "@chakra-ui/react";
 import { Configuration, OpenAIApi } from "openai";
 
 const configuration = new Configuration({
@@ -12,6 +13,7 @@ type OpenAIReq = {
   };
   body: {
     city: String;
+    filters?: String[];
   };
 };
 
@@ -36,10 +38,15 @@ export default async function (req: OpenAIReq, res: any) {
     return;
   }
 
+  const filters = req.body.filters || [];
+
   try {
+    const prompt = generatePrompt(city) + " " + addFilters(filters);
+    console.log(prompt);
+
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: generatePrompt(city),
+      prompt,
       temperature: 0.3,
       max_tokens: 500,
     });
@@ -60,7 +67,14 @@ export default async function (req: OpenAIReq, res: any) {
   }
 }
 
-function generatePrompt(city: String) {
+function generatePrompt(city: String): String {
   const sanitizedCity = city[0].toUpperCase() + city.slice(1).toLowerCase();
   return `Suggest some things to do in ${sanitizedCity}`;
+}
+
+function addFilters(filters: String[]): String {
+  if (filters.length <= 0) {
+    return "";
+  }
+  return filters.join(", ");
 }

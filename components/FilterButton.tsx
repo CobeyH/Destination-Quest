@@ -51,7 +51,6 @@ const FilterButtons = (props: {
             onClick={() => ToggleTag(tag.text)}
             bg={isActive ? "#189AB4" : "clear"}
             isDisabled={IsConflictingTag(tag.text)}
-            // border={isActive ? "1px solid transparent" : "1px solid grey"}
             _hover={{ bg: "#D4F1F4" }}
             key={index}
           >

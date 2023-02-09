@@ -3,7 +3,7 @@ import ResultCard from "./ResultCard";
 
 const ResultsDisplay = (props: { result: string }) => {
   const DataRows = () => {
-    const splitData = props.result.split(/\d+./);
+    const splitData = props.result.split(/\d+[.]/);
     let cards = [];
     for (let i = 0; i < splitData.length; i++) {
       const element = splitData[i];

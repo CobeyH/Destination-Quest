@@ -23,18 +23,18 @@ const ResultCard = (props: { text: string }) => {
       const matchedWords = queryString.filter(
         (word) => !bannedWords.includes(word)
       );
+      if (queryString.length === 0) return;
       const res = await photoSearch(matchedWords.join(" "));
 
       //@ts-ignore
       setImage(res.response?.results[0].urls.thumb);
     })();
-  }, []);
+  }, [props.text]);
 
   return (
     <Card direction="row" overflow="hidden" variant="outline">
       <Image src={image} objectFit="cover" />
       <CardBody>
-        <Heading>Testing</Heading>
         <Text>{props.text}</Text>
       </CardBody>
     </Card>
