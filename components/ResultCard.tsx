@@ -1,4 +1,5 @@
-import { Box, Text, Card, CardBody, Heading, Image } from "@chakra-ui/react";
+import { Card, CardBody, Text } from "@chakra-ui/react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import photoSearch from "../pages/api/photoSearch";
 
@@ -15,6 +16,10 @@ const ResultCard = (props: { text: string }) => {
     "visit",
     "climb",
     "walk",
+    "go",
+    "stroll",
+    "along",
+    "and",
   ];
 
   useEffect(() => {
@@ -23,18 +28,24 @@ const ResultCard = (props: { text: string }) => {
       const matchedWords = queryString.filter(
         (word) => !bannedWords.includes(word)
       );
+      if (queryString.length === 0) return;
       const res = await photoSearch(matchedWords.join(" "));
 
       //@ts-ignore
       setImage(res.response?.results[0].urls.thumb);
     })();
-  }, []);
+  }, [props.text]);
 
   return (
-    <Card direction="row" overflow="hidden" variant="outline">
-      <Image src={image} objectFit="cover" />
+    <Card direction="row" overflow="hidden" variant="outline" height={130}>
+      <Image
+        src={image || "/default-image.jpg"}
+        alt=""
+        width={200}
+        height={130}
+        style={{ objectFit: "fill" }}
+      />
       <CardBody>
-        <Heading>Testing</Heading>
         <Text>{props.text}</Text>
       </CardBody>
     </Card>
