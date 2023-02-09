@@ -4,10 +4,12 @@ import ResultsDisplay from "../components/ResultsDisplay";
 
 import Head from "next/head";
 import { useState } from "react";
+import FilterButtons from "../components/FilterButton";
 
 export default function Home() {
   const [result, setResult] = useState("");
   const [cityInput, setCityInput] = useState("");
+  const [tagKeys, setTagKeys] = useState<string[]>([]);
 
   async function onSubmit(event: any) {
     event.preventDefault();
@@ -51,6 +53,7 @@ export default function Home() {
         <Text fontSize="6xl">City Search</Text>
         <Text fontSize="2xl">Enter City</Text>
         <CityField setCity={setCityInput} city={cityInput} />
+        <FilterButtons tagKeys={tagKeys} setTagKeys={setTagKeys} />
         <Button m="3" onClick={onSubmit} isDisabled={cityInput.length < 5}>
           Search
         </Button>
