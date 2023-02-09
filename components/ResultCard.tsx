@@ -14,6 +14,7 @@ const ResultCard = (props: { text: string }) => {
     "enjoy",
     "visit",
     "climb",
+    "walk",
   ];
 
   useEffect(() => {
