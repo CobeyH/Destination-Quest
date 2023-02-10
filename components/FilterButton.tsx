@@ -1,10 +1,7 @@
 import { Box, Button, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import {
-  BsEmojiLaughingFill,
-  BsFillHouseDoorFill,
-  BsTreeFill,
-} from "react-icons/bs";
+import { BsFillHouseDoorFill, BsTreeFill, BsCheckLg } from "react-icons/bs";
+import { MdMuseum, MdTour } from "react-icons/md";
 
 type Tag = {
   text: string;
@@ -15,7 +12,9 @@ type Tag = {
 const tagData: Tag[] = [
   { text: "Outdoor", icon: BsTreeFill, mutuallyExclusive: ["Indoor"] },
   { text: "Indoor", icon: BsFillHouseDoorFill, mutuallyExclusive: ["Outdoor"] },
-  { text: "Free", icon: BsEmojiLaughingFill },
+  { text: "Free", icon: BsCheckLg },
+  { text: "Museums", icon: MdMuseum, mutuallyExclusive: ["Tours"] },
+  { text: "Tours", icon: MdTour, mutuallyExclusive: ["Museums"] },
 ];
 
 const FilterButtons = (props: {
