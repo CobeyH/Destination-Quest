@@ -52,7 +52,7 @@ const ResultCard = (props: { text: string; location: string }) => {
       variant="outline"
       height={[90, 100, 130]}
     >
-      <Box width={[120, 150, 200]} height="100%" bg="blue">
+      <Box width={[120, 150, 200]} height="100%">
         <Image
           src={image || "/default-image.jpg"}
           alt=""
