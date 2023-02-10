@@ -1,4 +1,4 @@
-import { Card, CardBody, Text } from "@chakra-ui/react";
+import { Box, Card, CardBody, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import photoSearch from "../pages/api/photoSearch";
@@ -23,30 +23,45 @@ const ResultCard = (props: { text: string; location: string }) => {
 
   useEffect(() => {
     (async () => {
+      // Guard against trying to find image with no input
+      if (!props.text || props.text.length === 0) return;
+      // Find capitalized words
       const match = /[A-Z]+[a-z]*/g;
-      let queryString = props.text.match(match);
-      if (!queryString || queryString.length === 0) return;
-      const matchedWords = queryString.filter(
-        (word) => !bannedWords.includes(word)
-      );
-      const res = await photoSearch(
-        matchedWords.join(" ") + "" + props.location
-      );
-
+      let properNouns = props.text.match(match) || [];
+      const matchedWords =
+        properNouns.filter((word) => !bannedWords.includes(word)) || [];
+      if (matchedWords.length === 0) {
+        matchedWords;
+      }
+      // Fallback to the whole phrase if there are no proper nouns in the sentence.
+      const queryString =
+        matchedWords.length > 0
+          ? matchedWords.join(" ") + "" + props.location
+          : props.text;
+      const res = await photoSearch(queryString);
+      if (!res.response?.results?.length) return;
       //@ts-ignore
       setImage(res.response?.results[0].urls.small);
     })();
   }, [props.text]);
 
   return (
-    <Card direction="row" overflow="hidden" variant="outline" height={130}>
-      <Image
-        src={image || "/default-image.jpg"}
-        alt=""
-        width={200}
-        height={130}
-        style={{ objectFit: "fill" }}
-      />
+    <Card
+      direction="row"
+      overflow="hidden"
+      variant="outline"
+      height={[90, 100, 130]}
+    >
+      <Box width={[120, 150, 200]} height="100%">
+        <Image
+          src={image || "/default-image.jpg"}
+          alt=""
+          width="0"
+          height="0"
+          sizes="100vw"
+          style={{ width: "100%", height: "100%", objectFit: "fill" }}
+        />
+      </Box>
       <CardBody>
         <Text>{props.text}</Text>
       </CardBody>

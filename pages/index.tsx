@@ -78,7 +78,7 @@ export default function Home() {
           {loading ? <Spinner pt="1" mr="2" /> : null}
           Search
         </Button>
-        <ResultsDisplay result={result} location={cityInput} />
+        <ResultsDisplay result={testData} location={cityInput} />
       </Box>
     </ChakraProvider>
   );
