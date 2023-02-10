@@ -1,12 +1,9 @@
 import {
+  IconButton,
   Input,
   InputGroup,
-  InputRightElement,
-  IconButton,
-  propNames,
   InputLeftElement,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
 
 import { IoLocateSharp } from "react-icons/io5";
 
